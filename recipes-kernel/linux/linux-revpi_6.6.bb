@@ -5,8 +5,6 @@ LINUX_RPI_KMETA_BRANCH ?= "yocto-6.6"
 SRCREV_machine = "fe0aa6034a477f1ee3c68843beebbf31b4c0c8cb"
 SRCREV_meta = "52ff0d75713ce61962b325a2090bd55e216f0cf3"
 
-SRC_URI[machine.sha256sum] = "c1582b9a200a38e23481facc0427b80fd40e9bf2ab7d18893b8518ee8729f595"
-
 KMETA = "kernel-meta"
 
 SRC_URI = " \
