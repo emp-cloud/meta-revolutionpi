@@ -11,9 +11,12 @@ SRC_URI[orig.sha256sum] = "882c49b69a77cb8a989200a94b6f5e52ff23f791b701f64d29af3
 
 inherit cmake pkgconfig
 
+# scdoc needed to generate manpages
 DEPENDS += "systemd scdoc-native"
 
-PACKAGES = "${PN}"
-
-FILES:${PN} += "${systemd_system_unitdir}/* ${docdir} ${mandir}"
-
+# Add example script for revpi compact led control to default package
+FILES:${PN}-doc:remove = "${docdir}"
+FILES:${PN} += " \
+                ${systemd_system_unitdir}/* \
+                ${docdir} \
+                "
