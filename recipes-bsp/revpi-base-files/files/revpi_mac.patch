@@ -1,14 +1,25 @@
 diff --git a/udev/revpi_mac b/udev/revpi_mac
-index d0b4c0c..129596a 100755
+index d0b4c0c..f438671 100755
 --- a/udev/revpi_mac
 +++ b/udev/revpi_mac
-@@ -1,4 +1,4 @@
+@@ -1,11 +1,13 @@
 -#!/bin/bash
 +#!/bin/sh
  
  # SPDX-FileCopyrightText: 2023 KUNBUS GmbH
  # 
-@@ -16,10 +16,12 @@ if [ -z "$BASE_MAC" ]; then
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ 
+-DEVNAME=$1
+-OFFSET=$2
++eval $(udevadm info --query=env --export $1)
++
++DEVNAME=$ID_NET_NAME
++OFFSET=$MAC_INDEX
+ 
+ if [ ! -f /proc/device-tree/hat/custom_5 ]; then
+     exit 1
+@@ -16,11 +18,16 @@ if [ -z "$BASE_MAC" ]; then
      exit 2
  fi
  
@@ -23,5 +34,9 @@ index d0b4c0c..129596a 100755
 +OFFSET_MAC=$(printf "%s" "$OFFSET_NUM" | sed 's/../&:/g')
 +OFFSET_MAC="${OFFSET_MAC%:}"
  
++echo "Setting MAC for $DEVNAME and $OFFSET"
++/sbin/ip link set "$DEVNAME" down
  /sbin/ip link set "$DEVNAME" address "$OFFSET_MAC"
++/sbin/ip link set "$DEVNAME" up
  
+ exit $?

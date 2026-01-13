@@ -1,0 +1,46 @@
+diff --git a/udev/50-revpi.rules b/udev/50-revpi.rules
+index 65ec7dd..9b3d998 100644
+--- a/udev/50-revpi.rules
++++ b/udev/50-revpi.rules
+@@ -33,20 +33,20 @@ GOTO="revpi_end"
+ 
+ LABEL="revpi_connect4"
+ ACTION=="add", SUBSYSTEM=="tty", DEVPATH=="*/fe201a00.serial/*", SYMLINK+="ttyRS485", SYMLINK+="ttyRS485-0"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/fd580000.ethernet/net/*", NAME="eth0", PROGRAM="revpi_mac %k 0"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/fd580000.ethernet/net/*", NAME="eth0", ENV{MAC_INDEX}="0", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
+ ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/usb2/2-3/2-3:1.0/net/*", NAME="eth1"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/fe300000.mmcnr/mmc_host/mmc1/mmc1:0001/mmc1:0001:1/net/*", NAME="wlan0", PROGRAM="revpi_mac %k 2"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/fe300000.mmcnr/mmc_host/mmc1/mmc1:0001/mmc1:0001:1/net/*", NAME="wlan0", ENV{MAC_INDEX}="2", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
+ GOTO="revpi_end"
+ 
+ LABEL="revpi_connect5"
+ ACTION=="add", DEVPATH=="*/1f00040000.serial/*", SUBSYSTEM=="tty", SYMLINK+="ttyRS485", SYMLINK+="ttyRS485-0"
+ LABEL="revpi_connect5_can_can"
+-ACTION=="add", DEVPATH=="*/1f00100000.ethernet/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="eth0", PROGRAM="revpi_mac %k 0"
++ACTION=="add", DEVPATH=="*/1f00100000.ethernet/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="eth0", ENV{MAC_INDEX}="0", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
+ ACTION=="add", DEVPATH=="*/1000110000.pcie/*:02:01.0/*/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="eth1"
+ # pileft and piright don't have an eeprom attached, thus configure the mac via revpi_mac
+-ACTION=="add", DEVPATH=="*/1000110000.pcie/*:02:02.0/*/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="pileft", PROGRAM="revpi_mac %k 2"
+-ACTION=="add", DEVPATH=="*/1000110000.pcie/*:02:03.0/*/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="piright", PROGRAM="revpi_mac %k 3"
+-ACTION=="add", DEVPATH=="*/mmc1:0001:1/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="wlan0", PROGRAM="revpi_mac %k 4"
++ACTION=="add", DEVPATH=="*/1000110000.pcie/*:02:02.0/*/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="pileft", ENV{MAC_INDEX}="2", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
++ACTION=="add", DEVPATH=="*/1000110000.pcie/*:02:03.0/*/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="piright", ENV{MAC_INDEX}="3", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
++ACTION=="add", DEVPATH=="*/mmc1:0001:1/net/*", SUBSYSTEM=="net", ATTR{type}=="1", NAME="wlan0",, ENV{MAC_INDEX}="4", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
+ GOTO="revpi_end"
+ 
+ LABEL="revpi_compact"
+@@ -69,10 +69,10 @@ ACTION=="add", SUBSYSTEM=="tty", DEVPATH=="*/fe201600.serial/*", SYMLINK+="ttyRS
+ ACTION=="add", SUBSYSTEM=="tty", DEVPATH=="*/fe201800.serial/*", SYMLINK+="ttyRS485-1"
+ ACTION=="add", SUBSYSTEM=="net", DEVPATH=="*/usb1/1-1/1-1.1/1-1.1:1.0/*", NAME="eth0"
+ ACTION=="add", SUBSYSTEM=="net", DEVPATH=="*/usb1/1-1/1-1.4/1-1.4:1.0/*", NAME="eth1"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp1", NAME="swp1", PROGRAM="revpi_mac %k 2"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp2", NAME="swp2", PROGRAM="revpi_mac %k 3"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp3", NAME="swp3", PROGRAM="revpi_mac %k 4"
+-ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/mmc3\:0001\:1/net/*", NAME="wlan0", PROGRAM="revpi_mac %k 5"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp1", NAME="swp1", ENV{MAC_INDEX}="2", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp2", NAME="swp2", ENV{MAC_INDEX}="3", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/spi5/spi5.1/net/swp3", NAME="swp3", ENV{MAC_INDEX}="4", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
++ACTION=="add", SUBSYSTEM=="net", ATTR{type}=="1", DEVPATH=="*/mmc3\:0001\:1/net/*", NAME="wlan0", ENV{MAC_INDEX}="5", ENV{SYSTEMD_WANTS}="revpi-mac@%E{DEVNAME}.service"
+ GOTO="revpi_end"
+ 
+ LABEL="revpi_end"
