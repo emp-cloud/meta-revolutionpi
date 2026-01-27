@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# SPDX-FileCopyrightText: 2026 KUNBUS GmbH
+
+[Match]
+Name=pileft piright
+
+[Link]
+Unmanaged=yes

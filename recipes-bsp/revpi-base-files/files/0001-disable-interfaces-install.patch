@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index dba9eae..71562ef 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -14,7 +14,6 @@ configure_file(Kyuafile Kyuafile COPYONLY)
+ 
+ add_subdirectory(avahi-services)
+ add_subdirectory(contrib)
+-add_subdirectory(interfaces)
+ add_subdirectory(logrotate)
+ add_subdirectory(man)
+ add_subdirectory(sysctl)
