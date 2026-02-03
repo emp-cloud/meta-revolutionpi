@@ -1,11 +1,11 @@
-# meta-revpi
+# meta-revolutionpi
 
-This layer provides Board Support Package (BSP) metadata for KUNBUS Revolution Pi (RevPi) devices.
+This layer provides Board Support Package (BSP) metadata for KUNBUS Revolution Pi devices.
 
 
 ## Description
 
-The *meta-revpi* layer provides support for Revolution Pi hardware. It includes kernel configurations, device tree overlays, and specific userspace utilities required for the operation of RevPi devices.
+The *meta-revolutionpi* layer provides support for Revolution Pi hardware. It includes kernel configurations, device tree overlays, and specific userspace utilities required for the operation of Revolution Pi devices.
 
 More information can be found at: <https://revolutionpi.com/en/> (Official Site)
 
@@ -22,9 +22,9 @@ This layer depends on:
     branch: scarthgap
 
 
-## Adding the meta-revpi layer to your build
+## Adding the meta-revolutionpi layer to your build
 
-Run `bitbake-layers add-layer meta-revpi` or add it manually to your *conf/bblayers.conf*.
+Run `bitbake-layers add-layer meta-revolutionpi` or add it manually to your *conf/bblayers.conf*.
 
 In your *conf/local.conf* set `MACHINE = "revpi"`
 
