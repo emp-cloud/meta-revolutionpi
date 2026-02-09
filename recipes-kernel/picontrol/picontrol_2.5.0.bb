@@ -5,8 +5,7 @@ LIC_FILES_CHKSUM = "file://src/COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 inherit module
 
 SRC_URI = "git://gitlab.com/kunbuserik/piControl.git;protocol=https;branch=master"
-SRCREV = "b29d9ed71b636374df890dca262f954dbb154eb5"
-PV = "2.4.0"
+SRCREV = "3419c76af3b5dc3b0aef39855ff99ea27a4fd5ed"
 
 S = "${WORKDIR}/git"
 
