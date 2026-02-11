@@ -4,8 +4,11 @@ LIC_FILES_CHKSUM = "file://src/COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 inherit module
 
-SRC_URI = "git://gitlab.com/kunbuserik/piControl.git;protocol=https;branch=master"
-SRCREV = "3419c76af3b5dc3b0aef39855ff99ea27a4fd5ed"
+SRC_URI = "git://gitlab.com/revolutionpi/piControl.git;protocol=https;branch=master \
+           file://0001-Add-modules_install-target-to-Makefile.patch \
+           "
+
+SRCREV = "417c4c01b5c2904c8917c6f5ca058af095a27e96"
 
 S = "${WORKDIR}/git"
 
