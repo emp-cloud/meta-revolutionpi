@@ -1,0 +1,21 @@
+man: Look up scdoc as a native dependency
+
+scdoc is a build tool, so it has to be found in the native sysroot when
+cross compiling. Otherwise the man pages are silently skipped.
+
+Upstream-Status: Pending
+Signed-off-by: Erik Sallmann <e.sallmann@kunbus.com>
+
+diff --git a/man/meson.build b/man/meson.build
+index 9c067eb..aad05d5 100644
+--- a/man/meson.build
++++ b/man/meson.build
+@@ -6,7 +6,7 @@ man_page_sources = files(
+   'pibridge-shutdown.8.scd'
+ )
+ 
+-scdoc = dependency('scdoc', required: get_option('man-pages'))
++scdoc = dependency('scdoc', native: true, required: get_option('man-pages'))
+ if scdoc.found()
+   scdoc_prog = find_program(scdoc.get_variable(pkgconfig: 'scdoc'), native: true)
+   mandir = get_option('mandir')
