@@ -26,7 +26,16 @@ This layer depends on:
 
 Run `bitbake-layers add-layer meta-revolutionpi` or add it manually to your *conf/bblayers.conf*.
 
-In your *conf/local.conf* set `MACHINE = "revpi"`
+In your *conf/local.conf*, select one of the supported machines:
+
+| Machine | Use case |
+| --- | --- |
+| `revpi` | Generic image for RevPi devices with automatic HAT EEPROM detection |
+| `revpi-core-s-v1` | RevPi Core S V1.0 without a HAT EEPROM |
+| `revpi-connect-s` | RevPi Connect S without a HAT EEPROM |
+| `revpi-connect-se` | RevPi Connect SE without a HAT EEPROM |
+
+For example, set `MACHINE = "revpi-core-s-v1"` for a RevPi Core S V1.0.
 
 Build your image e. g. `bitbake core-image-base`
 
@@ -34,4 +43,4 @@ Build your image e. g. `bitbake core-image-base`
 
 You can send patches using the GitLab merge request process.
 
-Maintainer: Erik Sallmann <e.sallmann@kunbus.com>
+Maintainer: KUNBUS GmbH <support@kunbus.com>
