@@ -13,7 +13,9 @@ SRC_URI = "https://packages.revolutionpi.de/pool/main/r/revpi-base-files/revpi-b
 
 SRC_URI[orig.sha256sum] = "882c49b69a77cb8a989200a94b6f5e52ff23f791b701f64d29af3c241422cfcf"
 
-inherit cmake pkgconfig systemd
+inherit cmake pkgconfig systemd features_check
+
+REQUIRED_DISTRO_FEATURES = "systemd"
 
 SYSTEMD_SERVICE:${PN} = "revpi-mac@.service"
 SYSTEMD_AUTO_ENABLE:${PN} = "disable"

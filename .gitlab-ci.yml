@@ -7,4 +7,55 @@ include:
     file: "base.yml"
   - project: "revolutionpi/infrastructure/ci-templates"
     file: "/check-commit/lint-commit.yml"
+  - project: "revolutionpi/infrastructure/ci-templates"
+    file: "reuse-lint.yml"
+  - project: "revolutionpi/infrastructure/ci-templates"
+    file: "yaml-lint.yml"
 
+# REUSE.toml needs reuse 4.0 or later
+lint-reuse:
+  image:
+    name: fsfe/reuse:5.0.2-debian
+    entrypoint: [""]
+
+check-layer:
+  stage: test
+  needs: []
+  # Parsing is CPU bound, the small runner takes too long
+  tags:
+    - saas-linux-medium-amd64
+  image: debian:bookworm-slim
+  variables:
+    YOCTO_BRANCH: scarthgap
+    LANG: en_US.UTF-8
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt-get update
+    - apt-get install -y --no-install-recommends
+        build-essential ca-certificates chrpath cpio diffstat file gawk git
+        liblz4-tool locales python3 python3-git python3-jinja2
+        python3-pexpect socat texinfo unzip wget xz-utils zstd
+    - sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen
+    - locale-gen
+    # bitbake refuses to run as root
+    - useradd -m builder
+    - cp -a "$CI_PROJECT_DIR" /home/builder/meta-revolutionpi
+    - chown -R builder:builder /home/builder
+  script:
+    # su runs dash, which only finds oe-init-build-env from within poky.
+    # The RevPi WiFi firmware needs the synaptics-killswitch license flag.
+    - su builder -c '
+        cd &&
+        git clone -q --depth 1 -b "$YOCTO_BRANCH"
+          https://git.yoctoproject.org/poky &&
+        git clone -q --depth 1 -b "$YOCTO_BRANCH"
+          https://git.yoctoproject.org/meta-raspberrypi &&
+        cd poky &&
+        . ./oe-init-build-env &&
+        echo "LICENSE_FLAGS_ACCEPTED += \"synaptics-killswitch\""
+          >> conf/local.conf &&
+        yocto-check-layer --machines revpi --no-auto-dependency
+          --dependency ~/meta-raspberrypi
+          -- ~/meta-revolutionpi'
