@@ -19,17 +19,3 @@ KBUILD_DEFCONFIG:revpi ?= "revpi-v8_defconfig"
 FILESEXTRAPATHS:prepend := "${THISDIR}/../../../meta-raspberrypi/recipes-kernel/linux/files:"
 
 KERNEL_DTC_FLAGS += "-@ -H epapr"
-
-do_deploy:append() {
-    # Falls du ARM64 baust, wäre es:
-    src="${B}/arch/arm64/boot/dts/overlays/hat_map.dtb"
-
-    if [ -f "$src" ]; then
-        install -m 0644 "$src" "${DEPLOYDIR}/hat_map.dtb"
-    else
-        bbwarn "hat_map.dtb not found at $src"
-    fi
-}
-
-DEPLOYDEP = ""
-do_deploy[depends] += "${DEPLOYDEP}"
