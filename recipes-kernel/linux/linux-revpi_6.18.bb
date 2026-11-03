@@ -1,9 +1,9 @@
-LINUX_VERSION ?= "6.12.56-revpi1"
-LINUX_RPI_BRANCH ?= "revpi-6.12"
-LINUX_RPI_KMETA_BRANCH ?= "yocto-6.12"
+LINUX_VERSION ?= "6.18.57-revpi0"
+LINUX_RPI_BRANCH ?= "revpi-6.18"
+LINUX_RPI_KMETA_BRANCH ?= "yocto-6.18"
 
-SRCREV_machine = "ab01681ab5652c603a2cebe425f9cc739fac44fc"
-SRCREV_meta = "3f0dcb29edf14029f130bc493a939b67ea27852e"
+SRCREV_machine = "494b36568711263bca1049e0c2bd3057479efaeb"
+SRCREV_meta = "cf1eb35154969907fb08e980fe6d1881c97d6a97"
 
 KMETA = "kernel-meta"
 
@@ -20,3 +20,7 @@ KBUILD_DEFCONFIG:revpi ?= "revpi-v8_defconfig"
 FILESEXTRAPATHS:prepend := "${@os.path.dirname(bb.utils.which(d.getVar('BBPATH'), 'recipes-kernel/linux/linux-raspberrypi.inc'))}/files:"
 
 KERNEL_DTC_FLAGS += "-@ -H epapr"
+
+# The Kconfiglib in scarthgap's kern-tools does not know the transitional
+# attribute used by 6.18
+do_kernel_configcheck[noexec] = "1"
