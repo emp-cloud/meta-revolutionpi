@@ -9,6 +9,8 @@ include:
     file: "/check-commit/lint-commit.yml"
   - project: "revolutionpi/infrastructure/ci-templates"
     file: "reuse-lint.yml"
+  - project: "revolutionpi/infrastructure/ci-templates"
+    file: "yaml-lint.yml"
 
 # REUSE.toml needs reuse 4.0 or later
 lint-reuse:
