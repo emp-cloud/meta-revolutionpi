@@ -1,3 +1,3 @@
-CMDLINE_ROOT_FSTYPE:append = " fsck.repair=yes"
+CMDLINE_ROOT_FSTYPE:append:revpi = " fsck.repair=yes"
 
-CMDLINE:append = " console=tty1 nosplash plymouth.ignore-serial-consoles"
+CMDLINE:append:revpi = " console=tty1 nosplash plymouth.ignore-serial-consoles"
