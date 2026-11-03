@@ -1,0 +1,21 @@
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "closest"
+SPDX-FileCopyrightText = "KUNBUS GmbH"
+SPDX-License-Identifier = "MIT"
+
+# Patches take the license of the project they apply to
+
+[[annotations]]
+path = "recipes-bsp/revpi-base-files/files/*.patch"
+precedence = "override"
+SPDX-FileCopyrightText = "KUNBUS GmbH"
+SPDX-License-Identifier = "GPL-2.0-or-later"
+
+[[annotations]]
+path = "recipes-extended/scdoc/scdoc/*.patch"
+precedence = "override"
+SPDX-FileCopyrightText = "Drew DeVault"
+SPDX-License-Identifier = "MIT"

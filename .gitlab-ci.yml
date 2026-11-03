@@ -7,4 +7,11 @@ include:
     file: "base.yml"
   - project: "revolutionpi/infrastructure/ci-templates"
     file: "/check-commit/lint-commit.yml"
+  - project: "revolutionpi/infrastructure/ci-templates"
+    file: "reuse-lint.yml"
 
+# REUSE.toml needs reuse 4.0 or later
+lint-reuse:
+  image:
+    name: fsfe/reuse:5.0.2-debian
+    entrypoint: [""]
