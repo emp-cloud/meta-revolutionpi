@@ -16,6 +16,7 @@ require recipes-kernel/linux/linux-raspberrypi.inc
 
 KBUILD_DEFCONFIG:revpi ?= "revpi-v8_defconfig"
 
-FILESEXTRAPATHS:prepend := "${THISDIR}/../../../meta-raspberrypi/recipes-kernel/linux/files:"
+# The fragments added by linux-raspberrypi.inc live next to it
+FILESEXTRAPATHS:prepend := "${@os.path.dirname(bb.utils.which(d.getVar('BBPATH'), 'recipes-kernel/linux/linux-raspberrypi.inc'))}/files:"
 
 KERNEL_DTC_FLAGS += "-@ -H epapr"
