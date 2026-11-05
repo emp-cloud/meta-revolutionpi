@@ -1,0 +1,120 @@
+setup_cpu_affinity: Port to POSIX sh
+
+Avoid a runtime dependency on bash by replacing the bashisms
+([[ ]], <<<, arrays, process substitution, C-style for loops, 16# base
+notation, $EUID and pipefail) with POSIX sh equivalents.
+
+Upstream-Status: Pending
+Signed-off-by: Erik Sallmann <e.sallmann@kunbus.com>
+
+diff --git a/systemd/setup_cpu_affinity b/systemd/setup_cpu_affinity
+index b6cb230..1e7bda0 100755
+--- a/systemd/setup_cpu_affinity
++++ b/systemd/setup_cpu_affinity
+@@ -1,12 +1,12 @@
+-#!/bin/bash
++#!/bin/sh
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ #
+ # SPDX-FileCopyrightText: 2025 KUNBUS GmbH
+ 
+-set -euo pipefail
++set -eu
+ 
+-if [[ $EUID -ne 0 ]]; then
++if [ "$(id -u)" -ne 0 ]; then
+     echo "Error: This script must be run as root" >&2
+     exit 1
+ fi
+@@ -18,7 +18,8 @@ unsupported_cm() {
+     # List of revision codes:
+     # https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#new-style-revision-codes
+ 
+-    local revision=$(awk '/^Revision/ {print $3}' /proc/cpuinfo)
++    local revision
++    revision=$(awk '/^Revision/ {print $3}' /proc/cpuinfo)
+ 
+     case "$revision" in
+         900061 | a020a0 | a220a0 | a02100)
+@@ -38,7 +39,7 @@ set_irq_affinity() {
+ 
+     current_affinity="$(cat /proc/irq/"$irq"/smp_affinity_list 2>/dev/null || echo "")"
+ 
+-    if [[ "$current_affinity" == "$cpu_list" ]]; then
++    if [ "$current_affinity" = "$cpu_list" ]; then
+         echo "IRQ $irq ($label) is already set to CPU(s) $cpu_list, skipping."
+         return 0
+     fi
+@@ -58,15 +59,15 @@ set_affinity() {
+ 
+     irqs="$(grep -i "$device" /proc/interrupts | awk '{print $1}' | sed 's/://')" || true
+ 
+-    if [[ -z "$irqs" ]]; then
++    if [ -z "$irqs" ]; then
+         echo "Warning: IRQ for $device not found, skipping." >&2
+         return 0
+     fi
+ 
+     local irq
+-    while IFS= read -r irq; do
++    for irq in $irqs; do
+         set_irq_affinity "$irq" "$device" "$cpu_list" || return 1
+-    done <<< "$irqs"
++    done
+ }
+ 
+ pibridge_uart_node() {
+@@ -74,7 +75,7 @@ pibridge_uart_node() {
+     # without a pibridge (e.g. RevPi Flat S).
+     local compat
+     compat="$(grep -rl 'kunbus,pi-bridge' /proc/device-tree 2>/dev/null | grep '/compatible$' | head -1)"
+-    [[ -n "$compat" ]] || return 1
++    [ -n "$compat" ] || return 1
+     dirname "$(dirname "$compat")"
+ }
+ 
+@@ -84,23 +85,23 @@ pibridge_pl011_irq() {
+     # can't be matched, e.g. the single shared IRQ on CM4.
+     local node="$1"
+     local intfile="$node/interrupts"
+-    local -a bytes cand
+-    [[ -r "$intfile" ]] || return 1
+-
+-    # The hwirq is among the interrupt specifier cells.
+-    read -r -a bytes < <(od -An -v -tx1 "$intfile" | tr '\n' ' ')
+-    local i word
+-    for ((i = 0; i + 3 < ${#bytes[@]}; i += 4)); do
+-        word="${bytes[i]}${bytes[i+1]}${bytes[i+2]}${bytes[i+3]}"
+-        cand+=( "$((16#$word))" )
++    local cand=""
++    [ -r "$intfile" ] || return 1
++
++    # The hwirq is among the interrupt specifier cells (big-endian u32).
++    # shellcheck disable=SC2046
++    set -- $(od -An -v -tx1 "$intfile")
++    while [ $# -ge 4 ]; do
++        cand="$cand $((0x$1$2$3$4))"
++        shift 4
+     done
+ 
+     local d hw v
+     for d in /sys/kernel/irq/*; do
+         grep -q 'uart-pl011' "$d/actions" 2>/dev/null || continue
+         hw="$(cat "$d/hwirq" 2>/dev/null)"
+-        for v in "${cand[@]}"; do
+-            if [[ "$hw" == "$v" ]]; then
++        for v in $cand; do
++            if [ "$hw" = "$v" ]; then
+                 basename "$d"
+                 return 0
+             fi
+@@ -121,7 +122,7 @@ set_picontrol_affinity() {
+     node="$(pibridge_uart_node)" || return 0
+ 
+     irq="$(pibridge_pl011_irq "$node")" || true
+-    if [[ -n "$irq" ]]; then
++    if [ -n "$irq" ]; then
+         set_irq_affinity "$irq" "uart-pl011 (pibridge)" "$cpu_list"
+     else
+         set_affinity "uart-pl011" "$cpu_list"

@@ -4,4 +4,4 @@ After=network-pre.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -c 'exec /lib/udev/revpi_mac %I'
+ExecStart=/lib/udev/revpi_mac %I
