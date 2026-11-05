@@ -7,6 +7,7 @@ SRC_URI = "https://packages.revolutionpi.de/pool/main/r/revpi-base-files/revpi-b
            file://revpi_mac.patch \
            file://0001-disable-interfaces-install.patch \
            file://0002-man-look-up-scdoc-as-native-dependency.patch \
+           file://0003-setup_cpu_affinity-port-to-POSIX-sh.patch \
            file://50-revpi.patch \
            file://revpi-mac@.service \
            file://10-disable-pibridge.network \
