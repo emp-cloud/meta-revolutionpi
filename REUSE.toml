@@ -13,9 +13,3 @@ path = "recipes-bsp/revpi-base-files/files/*.patch"
 precedence = "override"
 SPDX-FileCopyrightText = "KUNBUS GmbH"
 SPDX-License-Identifier = "GPL-2.0-or-later"
-
-[[annotations]]
-path = "recipes-extended/scdoc/scdoc/*.patch"
-precedence = "override"
-SPDX-FileCopyrightText = "Drew DeVault"
-SPDX-License-Identifier = "MIT"
