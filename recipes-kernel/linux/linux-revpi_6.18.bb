@@ -20,7 +20,3 @@ KBUILD_DEFCONFIG:revpi ?= "revpi-v8_defconfig"
 FILESEXTRAPATHS:prepend := "${@os.path.dirname(bb.utils.which(d.getVar('BBPATH'), 'recipes-kernel/linux/linux-raspberrypi.inc'))}/files:"
 
 KERNEL_DTC_FLAGS += "-@ -H epapr"
-
-# The Kconfiglib in scarthgap's kern-tools does not know the transitional
-# attribute used by 6.18
-do_kernel_configcheck[noexec] = "1"
