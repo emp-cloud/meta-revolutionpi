@@ -11,8 +11,6 @@ SRCREV_orig = "9bb01e6c5ad63b96759d12049d3061edc65b0f84"
 SRC_URI = "git://gitlab.com/revolutionpi/revpi-firmware.git;name=orig;branch=master;protocol=https \
            "
 
-S = "${WORKDIR}/git"
-
 do_install() {
     install -d ${D}${nonarch_base_libdir}/firmware/revpi/
     cp -r ${S}/*.fwu ${D}${nonarch_base_libdir}/firmware/revpi/

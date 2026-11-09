@@ -9,9 +9,6 @@ SRC_URI = "gitsm://gitlab.com/revolutionpi/revpi-pitest.git;protocol=https;branc
 # Git Revision for tag 2.1.1
 SRCREV = "59a06c00929a8803e97669edfaea2314c9842053"
 
-# set source path
-S = "${WORKDIR}/git"
-
 # activate CMake support
 inherit cmake
 

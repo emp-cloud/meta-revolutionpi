@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ca53281cc0caa7e320d4945a896fb837"
 SRC_URI = "git://gitlab.com/revolutionpi/imx-firmware.git;protocol=https;branch=upstream"
 SRCREV = "2978f3c88d6bcc5695a7b45f1936f18d31eebfa8"
 
-S = "${WORKDIR}/git"
-
 inherit allarch
 
 do_compile[noexec] = "1"

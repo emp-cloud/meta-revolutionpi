@@ -8,8 +8,6 @@ SRC_URI = "git://gitlab.com/revolutionpi/piControl.git;protocol=https;branch=mas
 
 SRCREV = "7980b36f361a8c31680dbd1cbc8d567a7afa4a38"
 
-S = "${WORKDIR}/git"
-
 # Use KDIR instead of KERNEL_SRC
 EXTRA_OEMAKE = "KDIR=${STAGING_KERNEL_DIR}"
 
