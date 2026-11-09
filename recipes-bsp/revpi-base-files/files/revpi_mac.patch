@@ -1,3 +1,8 @@
+Rework revpi_mac so it runs as a systemd unit (revpi-mac@.service)
+instead of a udev PROGRAM= and drop the bashisms (#!/bin/sh).
+
+Upstream-Status: Inappropriate [OE-specific, matches revpi-mac@.service from this layer]
+
 diff --git a/udev/revpi_mac b/udev/revpi_mac
 index d0b4c0c..f438671 100755
 --- a/udev/revpi_mac

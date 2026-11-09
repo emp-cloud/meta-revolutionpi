@@ -1,3 +1,8 @@
+Hand MAC assignment from the udev rules to revpi-mac@.service by
+setting MAC_INDEX and SYSTEMD_WANTS instead of PROGRAM=.
+
+Upstream-Status: Inappropriate [OE-specific, depends on revpi_mac.patch]
+
 diff --git a/udev/50-revpi.rules b/udev/50-revpi.rules
 index 65ec7dd..9b3d998 100644
 --- a/udev/50-revpi.rules

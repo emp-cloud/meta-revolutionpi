@@ -1,3 +1,7 @@
+Don't build/install the interfaces/ subdirectory (ifupdown pibridge.conf).
+
+Upstream-Status: Inappropriate [OE-specific, ifupdown config is not wanted in OE images]
+
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 index dba9eae..71562ef 100644
 --- a/CMakeLists.txt
