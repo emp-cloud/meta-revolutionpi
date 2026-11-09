@@ -26,10 +26,10 @@ DEPENDS += "systemd scdoc-native"
 do_install:append() {
     # systemd unit
     install -d ${D}${systemd_system_unitdir}
-    install -m 0644 ${WORKDIR}/revpi-mac@.service ${D}${systemd_system_unitdir}/
+    install -m 0644 ${UNPACKDIR}/revpi-mac@.service ${D}${systemd_system_unitdir}/
 
     install -d ${D}${sysconfdir}/systemd/network
-    install -m 0644 ${WORKDIR}/10-disable-pibridge.network \
+    install -m 0644 ${UNPACKDIR}/10-disable-pibridge.network \
         ${D}${sysconfdir}/systemd/network/
 }
 
